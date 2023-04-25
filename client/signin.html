@@ -1,44 +1,47 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Sign In</title>
-	<link rel="stylesheet" href="signup.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  </head>
-  <body>
-    <div class="container">
-      <div class="row justify-content-center mt-5">
-        <div class="col-md-4">
-          <div class="card">
-            <div class="card-header text-center">
-              <h4>Sign In</h4>
-            </div>
-            <div class="card-body">
-              <form action="/login" method="post">
-                <div class="form-group">
-                  <input type="email" class="form-control" id="email" name="email" placeholder="Email">
-                </div>
-                <div class="form-group">
-                  <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-                </div>
-                <div class="form-group d-flex justify-content-center">
-                  <button type="submit" class="btn btn-secondary btn-block">Sign In</button>
-                </div>
-				<div class="form-group d-flex justify-content-center">
-				  <a class="hyperlink mx-3" href="signup.html">Sign Up</a>
-                  <a class="hyperlink mx-3"href="forgot-pass.html">Forgot password?</a>
-                </div>
-              </form>
-            </div>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign In</title>
+  <link rel="stylesheet" href="signup.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="row justify-content-center mt-5">
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-header text-center">
+            <h4>Sign In</h4>
+          </div>
+          <div class="card-body">
+            <form action="/login" method="post">
+              <div class="form-group">
+                <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+              </div>
+              <div class="form-group">
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+              </div>
+              <div class="form-group d-flex justify-content-center">
+                <button type="submit" class="btn btn-secondary btn-block">Sign In</button>
+              </div>
+              <div class="form-group d-flex justify-content-center">
+                <a class="hyperlink mx-3" href="signup.html">Sign Up</a>
+                <a class="hyperlink mx-3" href="forgot-pass.html">Forgot password?</a>
+              </div>
+            </form>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-  </body>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+
 </html>
