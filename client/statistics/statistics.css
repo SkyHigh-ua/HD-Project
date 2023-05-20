@@ -1,0 +1,55 @@
+.cnt {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 70px;
+  background-color: #f1f1f1;
+  border-right: 1px solid #ccc;
+}
+
+.main {
+  flex: 1;
+  background-color: #ffffff;
+  overflow: auto;
+  max-width: calc(100% - 70px);
+}
+
+.main h2 {
+  text-align: center;
+  margin-top: 2vh;
+  margin-bottom: 1vh;
+}
+
+.sidebar button:hover:not(#active-btn) {
+  background-color: #d7d7d7;
+}
+
+.sidebar button.active {
+  background-color: #9f9f9f;
+  color: #fff;
+}
+
+.sidebar button.active:hover {
+  background-color: #828282;
+}
+
+.sidebar button {
+  margin: 0 !important;
+  border-radius: 0;
+}
+
+.sidebar button:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.chart {
+  margin-top: 4vh;
+  max-width: 100%;
+  max-height: 80vh;
+  padding-left: 4vw;
+  padding-right: 4vw;
+}
