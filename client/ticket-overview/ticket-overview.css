@@ -17,6 +17,8 @@
 }
 
 .main {
+  display: flex;
+  flex-direction: column;
   flex: 2.3;
   background-color: #ffffff;
 }
@@ -169,5 +171,6 @@
 }
 
 .table-cont {
-  max-height: 649.6px;
+  flex: 1;
+  overflow: auto;
 }
