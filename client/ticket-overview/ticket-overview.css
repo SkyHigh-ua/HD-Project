@@ -1,0 +1,176 @@
+.cnt {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 70px;
+  background-color: #f1f1f1;
+  border-right: 1px solid #ccc;
+}
+
+.navigation {
+  flex: 0.7;
+  background-color: #e9e9e9;
+  border-right: 1px solid #ccc;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  flex: 2.3;
+  background-color: #ffffff;
+}
+
+.main h2 {
+  text-align: center;
+  margin-top: 2vh;
+  margin-bottom: 1vh;
+}
+
+.collapsible {
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: center;
+  outline: none;
+  font-size: 15px;
+  border: 1px solid #ddd;
+}
+
+.collapsible:focus,
+.btn:focus {
+  outline: none;
+}
+
+.active,
+.collapsible:hover {
+  background-color: #e0e0e0;
+}
+
+.content {
+  padding: 0 18px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  background-color: #f1f1f1;
+}
+
+.optionbtn {
+  padding: 0px;
+}
+
+.content .btn {
+  margin: 0 !important;
+}
+
+.main .table {
+  width: 90%;
+}
+
+.pagination-container {
+  text-align: center;
+}
+
+.pagination {
+  display: inline-block;
+  padding-left: 0;
+  margin-bottom: 0;
+  border-radius: 0.25rem;
+}
+
+.pagination li {
+  display: inline;
+}
+
+.pagination li a {
+  position: relative;
+  float: left;
+  padding: 6px 12px;
+  margin-left: -1px;
+  line-height: 1.42857143;
+  color: #333;
+  text-decoration: none;
+  background-color: #fff;
+  border: 1px solid #ddd;
+}
+
+.pagination li a:hover {
+  background-color: #f5f5f5;
+}
+
+.pagination .active a:hover {
+  background-color: #828282;
+}
+
+.pagination .active a {
+  background-color: #828282;
+  color: #fff;
+  border-color: #828282;
+}
+
+.pagination .disabled a,
+.pagination .disabled a:hover {
+  color: #777;
+  background-color: #fff;
+  border-color: #ddd;
+}
+
+.navigation h2 {
+  text-align: center;
+  margin-top: 2vh;
+  margin-bottom: 3vh;
+}
+
+.nav-cont {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.view-button:hover {
+  background-color: #bdbdbd;
+}
+
+.accept-button:hover {
+  background-color: #bdbdbd;
+}
+
+.sidebar button:hover:not(#middle-btn) {
+  background-color: #d7d7d7;
+}
+
+.sidebar button.active {
+  background-color: #9f9f9f;
+  color: #fff;
+}
+
+.sidebar button.active:hover {
+  background-color: #828282;
+}
+
+.sidebar button {
+  margin: 0 !important;
+  border-radius: 0;
+}
+
+.sidebar button:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.nav-cont button:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.table-cont {
+  flex: 1;
+  overflow: auto;
+}
