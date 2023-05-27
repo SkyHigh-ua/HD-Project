@@ -3,6 +3,7 @@ import UserEntity from '../entities/users.entity.js';
 
 export function mapUserToUserEntity(user: User): UserEntity {
     const userEntity = new UserEntity();
+
     userEntity.id = user.id;
     userEntity.username = user.username;
     userEntity.firstName = user.firstName;
@@ -10,6 +11,7 @@ export function mapUserToUserEntity(user: User): UserEntity {
     userEntity.email = user.email;
     userEntity.password = user.password;
     userEntity.token = user.token;
+
     return userEntity;
 }
 
