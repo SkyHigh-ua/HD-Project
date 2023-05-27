@@ -4,7 +4,7 @@ import express, {type Express, type Request, type Response, type NextFunction} f
 import session from 'express-session';
 import userRouter from './routes/users.routes.js';
 
-dotenv.config({path: './src/env/.env.example'});
+dotenv.config({path: './src/env/.env'});
 
 const app: Express = express();
 const portToListen = parseInt(process.env.SERVER_PORT!, 10);
@@ -34,4 +34,4 @@ app.listen(portToListen, () => {
     console.log('Server is running');
 });
 
-export default app;
+// export default app;

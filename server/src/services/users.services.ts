@@ -22,26 +22,26 @@ export async function get(
     return users.map(user => mapping.mapUserEntityToUser(user));
 }
 
-export async function create(user_data: User) {
-    const user = await Dao.createUser(mapping.mapUserToUserEntity(user_data));
+export async function create(userData: User) {
+    const user = await Dao.createUser(mapping.mapUserToUserEntity(userData));
     return mapping.mapUserEntityToUser(user);
 }
 
-export async function update(id: number, user_data: PartialUser) {
-    const old_user_entity = await Dao.findUserById(id);
-    if (!old_user_entity) {
+export async function update(id: number, userData: PartialUser) {
+    const oldUserEntity = await Dao.findUserById(id);
+    if (!oldUserEntity) {
         throw new HttpError(`User with id ${id} not found`, 404);
     }
 
-    const old_user = mapping.mapUserEntityToUser(old_user_entity);
+    const oldUser = mapping.mapUserEntityToUser(oldUserEntity);
     const updatedUser = await Dao.updateUser(mapping.mapUserToUserEntity({
         id,
-        username: user_data.username ? user_data.username : old_user.username,
-        firstName: user_data.firstName ? user_data.firstName : old_user.firstName,
-        lastName: user_data.lastName ? user_data.lastName : old_user.lastName,
-        email: user_data.email ? user_data.email : old_user.email,
-        password: user_data.password ? user_data.password : old_user.password,
-        token: user_data.token ? user_data.token : old_user.token,
+        username: userData.username ? userData.username : oldUser.username,
+        firstName: userData.firstName ? userData.firstName : oldUser.firstName,
+        lastName: userData.lastName ? userData.lastName : oldUser.lastName,
+        email: userData.email ? userData.email : oldUser.email,
+        password: userData.password ? userData.password : oldUser.password,
+        token: userData.token ? userData.token : oldUser.token,
     }));
     return mapping.mapUserEntityToUser(updatedUser);
 }

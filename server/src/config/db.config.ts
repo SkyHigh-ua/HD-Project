@@ -2,9 +2,9 @@ import dotenv from 'dotenv';
 import {type DataSourceOptions} from 'typeorm';
 import UserEntity from '../entities/users.entity.js';
 
-dotenv.config();
+dotenv.config({path: './src/env/.env'});
 
-export const db: DataSourceOptions
+const db: DataSourceOptions
 = {
     type: 'postgres',
     host: process.env.DB_HOST,
@@ -21,3 +21,5 @@ export const db: DataSourceOptions
         '../migrations/*.ts',
     ],
 };
+
+export default db;
