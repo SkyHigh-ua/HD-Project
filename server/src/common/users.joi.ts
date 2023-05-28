@@ -1,6 +1,11 @@
 import * as middleware from '../middlewares/middlewares.js';
 import Joi from 'joi';
 
+const loginMiddleware = middleware.validateBody(Joi.object({
+    username: Joi.string().required(),
+    password: Joi.string().required(),
+}));
+
 const postMiddleware = middleware.validateBody(Joi.object({
     username: Joi.string().required(),
     firstName: Joi.string().required(),
@@ -17,4 +22,4 @@ const putMiddleware = middleware.validateBody(Joi.object({
     password: Joi.string(),
 }));
 
-export default {postMiddleware, putMiddleware};
+export default {postMiddleware, putMiddleware, loginMiddleware};

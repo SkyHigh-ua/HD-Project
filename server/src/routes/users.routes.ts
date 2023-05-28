@@ -7,12 +7,13 @@ const userRouter = Router();
 
 // Список користувачів
 userRouter.get('/', controller.get);
-// Логін
-userRouter.get('/login', controller.get);
 // Логаут
 userRouter.get('/logout', controller.get);
 // Отримання даних користувача за його id
 userRouter.get('/:userId', controller.get);
+
+// Логін
+userRouter.post('/login', usersJoi.loginMiddleware, controller.login);
 // Створення користувача
 userRouter.post('/', usersJoi.postMiddleware, controller.post);
 // Оновлення даних користувача за його id

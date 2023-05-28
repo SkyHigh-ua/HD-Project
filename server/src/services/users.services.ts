@@ -33,6 +33,16 @@ export async function create(userData: User) {
     return mapping.mapUserEntityToUser(createdUser);
 }
 
+export async function login(username: string, password: string) {
+    const loggedInUser = await Dao.findUserByUsernameAndPassword(username, password);
+
+    if (!loggedInUser) {
+        throw new HttpError('Invalid credentials', 401);
+    }
+
+    return mapping.mapUserEntityToUser(loggedInUser);
+}
+
 export async function update(id: number, userData: PartialUser) {
     const oldUserEntity = await Dao.findUserById(id);
 

@@ -25,6 +25,15 @@ export async function post(req: Request, res: Response, next: NextFunction) {
     }
 }
 
+export async function login(req: Request, res: Response, next: NextFunction) {
+    try {
+        const {username, password} = req.body as User;
+        res.json(await services.login(username, password));
+    } catch (err) {
+        next(err);
+    }
+}
+
 export async function put(req: Request, res: Response, next: NextFunction) {
     try {
         const userData = req.body as User;

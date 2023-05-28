@@ -25,9 +25,18 @@ app.use(
 app.use('/users', userRouter);
 
 app.use((err: Error & {status?: number}, req: Request, res: Response, next: NextFunction) => {
-    console.log(err.stack);
+    console.error(err);
     const serverErrorStatus = 500;
-    res.status(err.status ? err.status : serverErrorStatus).send(`[Error occurred]:${String(err.stack)}`);
+    let errorMessage: string;
+    const statusCode = err.status ?? serverErrorStatus;
+
+    if (process.env.NODE_ENV === 'production') {
+        errorMessage = 'Internal Server Error';
+    } else {
+        errorMessage = err.message;
+    }
+
+    res.status(statusCode).json({error: errorMessage});
 });
 
 app.listen(portToListen, () => {
