@@ -10,7 +10,7 @@ const app: Express = express();
 const portToListen = parseInt(process.env.SERVER_PORT!, 10);
 
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({extended: true}));
 app.use(
     session({
         secret: 'secret-key',
@@ -33,5 +33,3 @@ app.use((err: Error & {status?: number}, req: Request, res: Response, next: Next
 app.listen(portToListen, () => {
     console.log('Server is running');
 });
-
-// export default app;
