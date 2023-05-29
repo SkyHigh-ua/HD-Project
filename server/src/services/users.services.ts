@@ -1,21 +1,23 @@
-import {type User, type PartialUser} from '../common/users.interface.js';
+import {type PartialUser, type User} from '../common/users.interface.js';
 import * as Dao from '../DAO/users.dao.js';
 import * as mapping from '../mapping/users.mapping.js';
 import HttpError from '../common/error.class.js';
 import {type FindManyOptions} from 'typeorm';
 import type UserEntity from '../entities/users.entity';
+import jwt from 'jsonwebtoken';
+import config from '../config/auth.config';
 
 export async function get(
-    id?: number,
+    userId?: number,
     filter?: FindManyOptions<UserEntity>,
     page?: number,
     limit?: number,
 ) {
-    if (id) {
-        const user = await Dao.findUserById(id);
+    if (userId) {
+        const user = await Dao.findUserById(userId);
 
         if (!user) {
-            throw new HttpError(`User with id ${id} not found`, 404);
+            throw new HttpError(`User with id ${userId} not found`, 404);
         }
 
         return mapping.mapUserEntityToUser(user);
@@ -34,25 +36,25 @@ export async function create(userData: User) {
 }
 
 export async function login(username: string, password: string) {
-    const loggedInUser = await Dao.findUserByUsernameAndPassword(username, password);
+    const existingUser = await Dao.findUserByUsernameAndPassword(username, password);
 
-    if (!loggedInUser) {
+    if (!existingUser) {
         throw new HttpError('Invalid credentials', 401);
     }
 
-    return mapping.mapUserEntityToUser(loggedInUser);
+    return mapping.mapUserEntityToUser(existingUser);
 }
 
-export async function update(id: number, userData: PartialUser) {
-    const oldUserEntity = await Dao.findUserById(id);
+export async function update(userId: number, userData: PartialUser) {
+    const oldUserEntity = await Dao.findUserById(userId);
 
     if (!oldUserEntity) {
-        throw new HttpError(`User with id ${id} not found`, 404);
+        throw new HttpError(`User with id ${userId} not found`, 404);
     }
 
     const oldUser = mapping.mapUserEntityToUser(oldUserEntity);
     const updatedUserData: User = {
-        id,
+        id: userId,
         username: userData.username ? userData.username : oldUser.username,
         firstName: userData.firstName ? userData.firstName : oldUser.firstName,
         lastName: userData.lastName ? userData.lastName : oldUser.lastName,
@@ -67,14 +69,14 @@ export async function update(id: number, userData: PartialUser) {
     return mapping.mapUserEntityToUser(updatedUser);
 }
 
-export async function remove(id: number) {
-    const existedUser = await Dao.findUserById(id);
+export async function remove(userId: number) {
+    const existedUser = await Dao.findUserById(userId);
 
     if (!existedUser) {
-        throw new HttpError(`User with id ${id} not found`, 404);
+        throw new HttpError(`User with id ${userId} not found`, 404);
     }
 
-    await Dao.deleteUser(id);
+    await Dao.deleteUser(userId);
 
     return 'User deleted';
 }
