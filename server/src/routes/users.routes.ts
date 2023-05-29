@@ -11,12 +11,12 @@ userRouter.post('/login', usersJoi.loginMiddleware, controller.login);
 
 userRouter.use(verifyUser);
 
+// Логаут
+userRouter.post('/logout', controller.logout);
 // Отримання даних користувача за його id
 userRouter.get('/:userId', controller.get);
 // Список користувачів
 userRouter.get('/', controller.get);
-// Логаут
-userRouter.post('/logout', controller.logout);
 // Створення користувача
 userRouter.post('/signup', usersJoi.postMiddleware, controller.post);
 // Оновлення даних користувача за його id

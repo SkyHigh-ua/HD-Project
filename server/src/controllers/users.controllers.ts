@@ -1,11 +1,11 @@
-import * as services from '../services/users.services.js';
-import {type Request, type Response, type NextFunction} from 'express';
+import * as userServices from '../services/users.services.js';
+import {type NextFunction, type Request, type Response} from 'express';
 import {type FindManyOptions} from 'typeorm';
 import type UserEntity from '../entities/users.entity.js';
-import {type User} from '../common/users.interface';
-import type session from 'express-session';
+import {type User} from '../common/users.types';
 import jwt from 'jsonwebtoken';
 import authConfig from '../config/auth.config.js';
+import {type UserRequest} from '../common/request.types.js';
 
 export async function get(req: Request, res: Response, next: NextFunction) {
     try {
@@ -13,7 +13,7 @@ export async function get(req: Request, res: Response, next: NextFunction) {
         const page = req.body.page as number | undefined;
         const limit = req.body.limit as number | undefined;
 
-        res.json(await services.get(Number(req.params.userId), filter, page, limit));
+        res.json(await userServices.get(Number(req.params.userId), filter, page, limit));
     } catch (err) {
         next(err);
     }
@@ -22,52 +22,52 @@ export async function get(req: Request, res: Response, next: NextFunction) {
 export async function post(req: Request, res: Response, next: NextFunction) {
     try {
         const userData = req.body as User;
-        res.json(await services.create(userData));
+        res.json(await userServices.create(userData));
     } catch (err) {
         next(err);
     }
 }
 
-export async function login(req: Request, res: Response, next: NextFunction) {
+export async function login(req: UserRequest, res: Response, next: NextFunction) {
     try {
         const {username, password} = req.body as User;
-        const loggedInUser = await services.login(username, password);
+        const loggedInUser = await userServices.login(username, password);
 
         const {id} = loggedInUser;
-        jwt.sign({id}, authConfig.jwtSecret, {expiresIn: '16h'}, (err, token) => {
-            if (err) {
-                throw new Error('Failed to sign the JWT token');
-            }
+        loggedInUser.token = jwt.sign({id}, authConfig.jwtSecret, {expiresIn: '1m'});
+        await userServices.update(id, loggedInUser);
 
-            const hoursCount = 16;
-            const cookieOptions = {
-                maxAge: hoursCount * authConfig.hourInMilliseconds,
-                httpOnly: true, // The cookie is only accessible by the web server
-                secure: true,
-                sameSite: true,
-            };
-            res.cookie('SessionID', token, cookieOptions);
-            res.json(loggedInUser);
-        });
+        res.json(loggedInUser);
     } catch (err) {
         next(err);
     }
 }
 
-export async function logout(req: Request, res: Response) {
-    req.session.destroy(err => {
-        if (err) {
-            return res.status(500).json({error: 'Failed to logout'});
+export async function logout(req: UserRequest, res: Response) {
+    try {
+        if (!req.user) {
+            // User is not authenticated, treat it as a successful logout
+            res.sendStatus(200);
+            return;
         }
 
-        res.redirect('/users/login');
-    });
+        console.log(req.user);
+        const {id} = req.user;
+
+        req.user.token = undefined;
+        await userServices.update(id, req.user);
+
+        res.sendStatus(200);
+    } catch (err) {
+        console.error(err);
+        res.sendStatus(500);
+    }
 }
 
 export async function put(req: Request, res: Response, next: NextFunction) {
     try {
         const userData = req.body as User;
-        res.json(await services.update(Number(req.params.userId), userData));
+        res.json(await userServices.update(Number(req.params.userId), userData));
     } catch (err) {
         next(err);
     }
@@ -75,7 +75,7 @@ export async function put(req: Request, res: Response, next: NextFunction) {
 
 export async function remove(req: Request, res: Response, next: NextFunction) {
     try {
-        res.send(await services.remove(Number(req.params.userId)));
+        res.send(await userServices.remove(Number(req.params.userId)));
     } catch (err) {
         next(err);
     }

@@ -1,4 +1,4 @@
-import {type PartialUser, type User} from '../common/users.interface.js';
+import {type PartialUser, type User} from '../common/users.types';
 import * as Dao from '../DAO/users.dao.js';
 import * as mapping from '../mapping/users.mapping.js';
 import HttpError from '../common/error.class.js';
