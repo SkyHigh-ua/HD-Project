@@ -1,10 +1,13 @@
-import {type User} from '../common/users.types';
+import {type User, type UserWithoutId} from '../common/users.types';
 import UserEntity from '../entities/users.entity.js';
 
-export function mapUserToUserEntity(user: User): UserEntity {
+export function mapUserToUserEntity(user: UserWithoutId): UserEntity {
     const userEntity = new UserEntity();
 
-    userEntity.id = user.id;
+    if (user.id !== undefined) {
+        userEntity.id = user.id;
+    }
+
     userEntity.username = user.username;
     userEntity.firstName = user.firstName;
     userEntity.lastName = user.lastName;

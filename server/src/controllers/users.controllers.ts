@@ -1,8 +1,8 @@
-import * as userServices from '../services/users.services.js';
+import * as services from '../services/users.services.js';
 import {type NextFunction, type Request, type Response} from 'express';
 import {type FindManyOptions} from 'typeorm';
 import type UserEntity from '../entities/users.entity.js';
-import {type User} from '../common/users.types';
+import {type PartialUser, type User, UserWithoutId} from '../common/users.types';
 import jwt from 'jsonwebtoken';
 import authConfig from '../config/auth.config.js';
 import {type UserRequest} from '../common/request.types.js';
@@ -13,29 +13,31 @@ export async function get(req: Request, res: Response, next: NextFunction) {
         const page = req.body.page as number | undefined;
         const limit = req.body.limit as number | undefined;
 
-        res.json(await userServices.get(Number(req.params.userId), filter, page, limit));
+        res.json(await services.get(Number(req.params.userId), filter, page, limit));
     } catch (err) {
         next(err);
     }
 }
 
 export async function post(req: Request, res: Response, next: NextFunction) {
+    const userData = req.body as UserWithoutId;
+
     try {
-        const userData = req.body as User;
-        res.json(await userServices.create(userData));
+        res.json(await services.create(userData));
     } catch (err) {
         next(err);
     }
 }
 
 export async function login(req: UserRequest, res: Response, next: NextFunction) {
+    const {username, password} = req.body as User;
+
     try {
-        const {username, password} = req.body as User;
-        const loggedInUser = await userServices.login(username, password);
+        const loggedInUser = await services.login(username, password);
 
         const {id} = loggedInUser;
         loggedInUser.token = jwt.sign({id}, authConfig.jwtSecret, {expiresIn: '1m'});
-        await userServices.update(id, loggedInUser);
+        await services.update(id, loggedInUser);
 
         res.json(loggedInUser);
     } catch (err) {
@@ -55,7 +57,7 @@ export async function logout(req: UserRequest, res: Response) {
         const {id} = req.user;
 
         req.user.token = undefined;
-        await userServices.update(id, req.user);
+        await services.update(id, req.user);
 
         res.sendStatus(200);
     } catch (err) {
@@ -65,9 +67,10 @@ export async function logout(req: UserRequest, res: Response) {
 }
 
 export async function put(req: Request, res: Response, next: NextFunction) {
+    const userData = req.body as PartialUser;
+
     try {
-        const userData = req.body as User;
-        res.json(await userServices.update(Number(req.params.userId), userData));
+        res.json(await services.update(Number(req.params.userId), userData));
     } catch (err) {
         next(err);
     }
@@ -75,7 +78,7 @@ export async function put(req: Request, res: Response, next: NextFunction) {
 
 export async function remove(req: Request, res: Response, next: NextFunction) {
     try {
-        res.send(await userServices.remove(Number(req.params.userId)));
+        res.send(services.remove(Number(req.params.userId)));
     } catch (err) {
         next(err);
     }

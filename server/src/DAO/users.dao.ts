@@ -1,16 +1,12 @@
-import connection from '../datasource/db.datasource.js';
 import UserEntity from '../entities/users.entity.js';
 import {type FindManyOptions} from 'typeorm';
-
-const entityManager = connection.manager;
+import dbCommon from '../common/db.common.js';
 
 export async function createUser(user: UserEntity): Promise<UserEntity> {
-    const newUser = entityManager.create(UserEntity, user);
+    const newUser = dbCommon.entityManager.create(UserEntity, user);
 
-    return entityManager.save(newUser);
+    return dbCommon.entityManager.save(newUser);
 }
-
-type UserFilter = UserEntity;
 
 export async function findAllUsers(
     filter?: FindManyOptions<UserEntity>, // {status?: string}
@@ -23,12 +19,12 @@ export async function findAllUsers(
         take: limit,
     };
 
-    return entityManager.find(UserEntity, options);
+    return dbCommon.entityManager.find(UserEntity, options);
 }
 
 export async function findUserById(id: number): Promise<UserEntity | undefined> {
     try {
-        const result = await entityManager.findOne(UserEntity, {
+        const result = await dbCommon.entityManager.findOne(UserEntity, {
             where: {id},
         });
 
@@ -42,7 +38,7 @@ export async function findUserById(id: number): Promise<UserEntity | undefined> 
 export async function findUserByUsernameAndPassword(username: string, password: string):
 Promise<UserEntity | undefined> {
     try {
-        const result = await entityManager.findOne(UserEntity, {
+        const result = await dbCommon.entityManager.findOne(UserEntity, {
             where: {username, password},
         });
 
@@ -54,11 +50,7 @@ Promise<UserEntity | undefined> {
 }
 
 export async function updateUser(user: UserEntity): Promise<UserEntity> {
-    const existingUser = await entityManager.findOne(UserEntity, {
-        where: {
-            id: user.id,
-        },
-    });
+    const existingUser = await findUserById(user.id);
 
     if (!existingUser) {
         throw new Error(`User with ID ${user.id} does not exist.`);
@@ -71,15 +63,15 @@ export async function updateUser(user: UserEntity): Promise<UserEntity> {
     existingUser.password = user.password;
     existingUser.token = user.token;
 
-    return entityManager.save(existingUser);
+    return dbCommon.entityManager.save(existingUser);
 }
 
-export async function deleteUser(id: number): Promise<void> {
-    const existingUser = await entityManager.findOne(UserEntity, {where: {id}});
+export async function deleteUser(userId: number): Promise<void> {
+    const existingUser = await findUserById(userId);
 
     if (!existingUser) {
-        throw new Error(`User with ID ${id} does not exist.`);
+        throw new Error(`User with ID ${userId} does not exist.`);
     }
 
-    await entityManager.remove(existingUser);
+    await dbCommon.entityManager.remove(existingUser);
 }

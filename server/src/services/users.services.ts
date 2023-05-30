@@ -1,9 +1,9 @@
-import {type PartialUser, type User} from '../common/users.types';
+import {type PartialUser, type User, UserWithoutId} from '../common/users.types.js';
 import * as Dao from '../DAO/users.dao.js';
 import * as mapping from '../mapping/users.mapping.js';
 import HttpError from '../common/error.class.js';
 import {type FindManyOptions} from 'typeorm';
-import type UserEntity from '../entities/users.entity';
+import type UserEntity from '../entities/users.entity.js';
 import jwt from 'jsonwebtoken';
 import config from '../config/auth.config';
 
@@ -28,7 +28,7 @@ export async function get(
     return users.map(user => mapping.mapUserEntityToUser(user));
 }
 
-export async function create(userData: User) {
+export async function create(userData: UserWithoutId) {
     const userEntity = mapping.mapUserToUserEntity(userData);
     const createdUser = await Dao.createUser(userEntity);
 

@@ -1,4 +1,4 @@
-const {PrimaryGeneratedColumn} = require("typeorm");
+const {PrimaryGeneratedColumn, JoinColumn} = require("typeorm");
 module.exports = {
     "env": {
         "browser": true,
@@ -23,7 +23,10 @@ module.exports = {
                             "Entity",
                             "PrimaryGeneratedColumn",
                             "Column",
-
+                            "ManyToOne",
+                            "JoinColumn",
+                            "OneToOne",
+                            "OneToMany"
                         ]
                     }
                 ]

@@ -3,8 +3,8 @@ import {type DeepPartial} from 'typeorm';
 export type User = {
     id: number;
     username: string;
-    firstName: string;
-    lastName: string;
+    firstName?: string;
+    lastName?: string;
     email: string;
     password: string;
     token?: string;

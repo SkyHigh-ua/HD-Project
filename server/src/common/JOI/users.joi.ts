@@ -1,4 +1,4 @@
-import * as middleware from '../middlewares/middleware.js';
+import * as middleware from '../../middlewares/middleware.common.js';
 import Joi from 'joi';
 
 const loginMiddleware = middleware.validateBody(Joi.object({

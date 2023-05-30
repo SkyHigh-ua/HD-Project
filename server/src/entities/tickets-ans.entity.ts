@@ -1,30 +1,31 @@
 import {Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToOne, JoinColumn} from 'typeorm';
-import {UserEntity} from './users.entity'
-import {TicketEntity} from './tickets.entity'
+import {UserEntity} from './users.entity.js';
+import {TicketEntity} from './tickets.entity.js';
 
 @Entity('TicketAnswer')
 export class TicketAnswerEntity {
-    @PrimaryGeneratedColumn()
-        id: number = 0;
+    @PrimaryGeneratedColumn({primaryKeyConstraintName: 'PK_TicketAnswer'})
+        id = 0;
 
     @Column('text')
-        text: string = '';
+        text = '';
 
     @Column('json')
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         insertURL: string[] = [];
 
     @Column('integer')
         ticketId?: number;
-    
+
     @Column('integer')
         userId?: number;
 
-    @ManyToOne(() => UserEntity, user => user.tickets)
-    @JoinColumn({ name: 'userId' })
+    @ManyToOne(() => UserEntity, user => user.answers)
+    @JoinColumn({name: 'userId', referencedColumnName: 'id'})
         user?: UserEntity;
-    
+
     @OneToOne(() => TicketEntity, ticket => ticket.answer)
-    @JoinColumn({ name: 'ticketId' })
+    @JoinColumn({name: 'ticketId', referencedColumnName: 'id'})
         ticket?: TicketEntity;
 }
 
