@@ -15,10 +15,10 @@ export class TicketAnswerEntity {
         insertURL: string[] = [];
 
     @Column('integer', {nullable: true})
-        ticketId?: number;
+        ticketId?: number | null;
 
     @Column('integer', {nullable: true})
-        userId?: number;
+        userId?: number | null;
 
     @ManyToOne(() => UserEntity, user => user.answers)
     @JoinColumn({name: 'userId', referencedColumnName: 'id'})

@@ -7,7 +7,7 @@ export async function get(req: Request, res: Response, next: NextFunction) {
         const filter = req.body.filter as PartialTicketAnswer;
         const page = req.body.page as number | undefined;
         const limit = req.body.limit as number | undefined;
-
+        console.log('inside controller');
         res.json(await services.get(Number(req.params.answerId), filter, page, limit));
     } catch (err) {
         next(err);

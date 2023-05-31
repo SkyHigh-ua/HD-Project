@@ -34,7 +34,7 @@ export async function login(req: UserRequest, res: Response, next: NextFunction)
         const loggedInUser = await services.login(username, password);
 
         const {id} = loggedInUser;
-        loggedInUser.token = jwt.sign({id}, authConfig.jwtSecret, {expiresIn: '5m'});
+        loggedInUser.token = jwt.sign({id}, authConfig.jwtSecret, {expiresIn: '10m'});
         await services.update(id, loggedInUser);
 
         res.json(loggedInUser);

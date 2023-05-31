@@ -4,8 +4,8 @@ export type TicketAnswer = {
     id: number;
     text: string;
     insertURL: string[];
-    ticketId?: number;
-    userId?: number;
+    ticketId?: number | null;
+    userId?: number | null;
 };
 
 export type TicketAnswerWithoutId = {id?: number} & Omit<TicketAnswer, 'id'>;

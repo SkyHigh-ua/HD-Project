@@ -4,11 +4,11 @@ import {
     type TicketAnswerWithoutId,
 } from '../common/types/tickets.answers.types.js';
 import * as Dao from '../DAO/tickets.answers.dao.js';
-import HttpError from '../common/error.class';
+import HttpError from '../common/error.class.js';
 import {
     mapTicketAnswerEntityToTicketAnswer,
     mapTicketAnswerToTicketAnswerEntity,
-} from '../mapping/tickets.answers.mapping';
+} from '../mapping/tickets.answers.mapping.js';
 
 export async function get(
     answerId?: number,
@@ -52,8 +52,8 @@ export async function update(answerId: number, answer: PartialTicketAnswer) {
         text: answer.text ? answer.text : oldAnswer.text,
         // eslint-disable-next-line @typescript-eslint/naming-convention
         insertURL: answer.insertURL ? answer.insertURL : oldAnswer.insertURL,
-        ticketId: answer.ticketId ? answer.ticketId : oldAnswer.ticketId,
-        userId: answer.userId ? answer.userId : oldAnswer.userId,
+        ticketId: answer.ticketId ? answer.ticketId : null,
+        userId: answer.userId ? answer.userId : null,
     };
 
     const updatedAnswer = await Dao.updateAnswer(mapTicketAnswerToTicketAnswerEntity(updatedData));

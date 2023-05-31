@@ -2,6 +2,7 @@ import dbCommon from '../common/db.common.js';
 import TicketAnswerEntity from '../entities/tickets-ans.entity.js';
 import {type PartialTicketAnswer} from '../common/types/tickets.answers.types.js';
 import connection from '../datasource/db.datasource.js';
+import * as ticketsDao from './tickets.dao.js';
 
 export async function findAnswerById(id: number) {
     try {
@@ -45,10 +46,24 @@ export async function findAllAnswers(
         query.skip((page - 1) * limit).take(limit);
     }
 
+    console.log('trial to get answers');
     return query.getMany();
 }
 
 export async function createAnswer(answer: TicketAnswerEntity) {
+    const ticketToBeAnswered = await ticketsDao.findTicketById(answer.ticketId!);
+
+    if (!ticketToBeAnswered) {
+        throw new Error(`Ticket with ID ${answer.ticketId!} doesn't exist`);
+    }
+
+    if (ticketToBeAnswered.status === 'Solved' || ticketToBeAnswered.status === 'Closed') {
+        throw new Error(`Ticket with ID ${answer.ticketId!} is already answered`);
+    }
+
+    ticketToBeAnswered.status = 'Solved';
+    await ticketsDao.updateTicket(ticketToBeAnswered);
+
     const createdAnswer = dbCommon.entityManager.create(TicketAnswerEntity, answer);
 
     return dbCommon.entityManager.save(createdAnswer);
