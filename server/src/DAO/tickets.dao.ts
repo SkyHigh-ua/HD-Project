@@ -1,6 +1,7 @@
 import dbCommon from '../common/db.common.js';
 import {TicketEntity} from '../entities/tickets.entity.js';
-import {type FindManyOptions} from 'typeorm';
+import {type PartialTicket} from '../common/types/tickets.types.js';
+import connection from '../datasource/db.datasource.js';
 
 export async function findTicketById(id: number) {
     try {
@@ -16,17 +17,42 @@ export async function findTicketById(id: number) {
 }
 
 export async function findAllTickets(
-    filter?: FindManyOptions<TicketEntity>,
+    filter?: PartialTicket,
     page?: number,
     limit?: number,
 ) {
-    const options: FindManyOptions<TicketEntity> = {
-        ...filter,
-        skip: page && limit ? (page - 1) * limit : undefined,
-        take: limit,
-    };
+    const query = connection.createQueryBuilder(TicketEntity, 'Ticket');
 
-    return dbCommon.entityManager.find(TicketEntity, options);
+    if (filter?.status) {
+        query.andWhere('Ticket.status = :status', {status: filter.status});
+    }
+
+    if (filter?.from) {
+        query.andWhere('Ticket.from = :from', {from: filter.from});
+    }
+
+    if (filter?.text) {
+        query.andWhere('Ticket.text LIKE :text', {text: `%${filter.text}%`});
+    }
+
+    if (filter?.title) {
+        query.andWhere('Ticket.title LIKE :title', {title: `%${filter.title}%`});
+    }
+
+    if (filter?.insertURL) {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        query.andWhere('Ticket.insertURL = :insertURL', {insertURL: filter.insertURL});
+    }
+
+    if (filter?.userId) {
+        query.andWhere('Ticket.userId = :userId', {userId: filter.userId});
+    }
+
+    if (page && limit) {
+        query.skip((page - 1) * limit).take(limit);
+    }
+
+    return query.getMany();
 }
 
 export async function createTicket(ticket: TicketEntity) {
@@ -42,12 +68,12 @@ export async function updateTicket(ticket: TicketEntity) {
         throw new Error(`Ticket with ID ${ticket.id} does not exist.`);
     }
 
-    existingTicket.id = ticket.id;
     existingTicket.title = ticket.title;
     existingTicket.from = ticket.from;
     existingTicket.text = ticket.text;
     existingTicket.insertURL = ticket.insertURL;
     existingTicket.status = ticket.status;
+    existingTicket.userId = ticket.userId;
 
     return dbCommon.entityManager.save(existingTicket);
 }

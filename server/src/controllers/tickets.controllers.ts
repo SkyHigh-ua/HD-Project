@@ -1,16 +1,14 @@
 import {type NextFunction, type Request, type Response} from 'express';
-import {type FindManyOptions} from 'typeorm';
 import * as services from '../services/tickets.services.js';
-import type TicketEntity from '../entities/tickets.entity.js';
-import {type PartialTicket, type TicketWithoutId} from '../common/tickets.types.js';
+import {type PartialTicket, type TicketWithoutId} from '../common/types/tickets.types.js';
 
 export async function get(req: Request, res: Response, next: NextFunction) {
     try {
-        const filter = req.body.filter as FindManyOptions<TicketEntity>;
+        const filter = req.body.filter as PartialTicket;
         const page = req.body.page as number | undefined;
         const limit = req.body.limit as number | undefined;
 
-        res.json(await services.get(Number(req.params.userId), filter, page, limit));
+        res.json(await services.get(Number(req.params.ticketId), filter, page, limit));
     } catch (err) {
         next(err);
     }
@@ -38,7 +36,13 @@ export async function put(req: Request, res: Response, next: NextFunction) {
 
 export async function remove(req: Request, res: Response, next: NextFunction) {
     try {
-        res.send(services.remove(Number(req.params.ticketId)));
+        const result = await services.remove(Number(req.params.ticketId));
+
+        if (result === 'Ticket not found') {
+            res.status(404).json({error: 'Ticket not found'});
+        } else {
+            res.send(result);
+        }
     } catch (err) {
         next(err);
     }

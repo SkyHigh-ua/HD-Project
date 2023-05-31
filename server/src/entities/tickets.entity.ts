@@ -1,4 +1,4 @@
-import {Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToOne, JoinColumn} from 'typeorm';
+import {Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToOne, JoinColumn, Unique} from 'typeorm';
 import {UserEntity} from './users.entity.js';
 import {TicketAnswerEntity} from './tickets-ans.entity.js';
 
@@ -23,15 +23,14 @@ export class TicketEntity {
     @Column('text')
         status = 'available';
 
-    @Column('integer')
-        userId?: number;
+    @Column('integer', {nullable: true})
+        userId?: number | null;
 
     @ManyToOne(() => UserEntity, user => user.tickets)
     @JoinColumn({name: 'userId', referencedColumnName: 'id'})
         user?: UserEntity;
 
     @OneToOne(() => TicketAnswerEntity, answer => answer.ticket)
-    @JoinColumn({name: 'id', referencedColumnName: 'ticketId'})
         answer?: TicketAnswerEntity;
 }
 

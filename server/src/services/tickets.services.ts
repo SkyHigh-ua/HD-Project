@@ -1,13 +1,11 @@
-import {type FindManyOptions} from 'typeorm';
 import * as Dao from '../DAO/tickets.dao.js';
 import HttpError from '../common/error.class.js';
-import type TicketEntity from '../entities/tickets.entity.js';
 import {mapTicketEntityToTicket, mapTicketToTicketEntity} from '../mapping/tickets.mapping.js';
-import {type PartialTicket, type Ticket, type TicketWithoutId} from '../common/tickets.types';
+import {type PartialTicket, type Ticket, type TicketWithoutId} from '../common/types/tickets.types';
 
 export async function get(
     ticketId?: number,
-    filter?: FindManyOptions<TicketEntity>,
+    filter?: PartialTicket,
     page?: number,
     limit?: number,
 ) {
@@ -15,7 +13,7 @@ export async function get(
         const ticket = await Dao.findTicketById(ticketId);
 
         if (!ticket) {
-            throw new HttpError(`User with id ${ticketId} not found`, 404);
+            return {error: `Ticket with id ${ticketId} not found`};
         }
 
         return mapTicketEntityToTicket(ticket);
@@ -37,7 +35,7 @@ export async function update(ticketId: number, ticket: PartialTicket) {
     const oldTicketEntity = await Dao.findTicketById(ticketId);
 
     if (!oldTicketEntity) {
-        throw new HttpError(`Ticket with id ${ticketId} not found`, 404);
+        return {error: `Ticket with id ${ticketId} not found`};
     }
 
     const oldTicket = mapTicketEntityToTicket(oldTicketEntity);
@@ -50,6 +48,7 @@ export async function update(ticketId: number, ticket: PartialTicket) {
         // eslint-disable-next-line @typescript-eslint/naming-convention
         insertURL: ticket.insertURL ? ticket.insertURL : oldTicket.insertURL,
         status: ticket.status ? ticket.status : oldTicket.status,
+        userId: ticket.userId ? ticket.userId : null,
     };
 
     const updatedTicket = await Dao.updateTicket(mapTicketToTicketEntity(updatedData));
@@ -61,7 +60,7 @@ export async function remove(ticketId: number) {
     const existedTicket = await Dao.findTicketById(ticketId);
 
     if (!existedTicket) {
-        throw new HttpError(`Ticket with id ${ticketId} not found`, 404);
+        return 'Ticket not found';
     }
 
     await Dao.deleteTicket(ticketId);

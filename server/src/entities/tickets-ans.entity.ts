@@ -14,10 +14,10 @@ export class TicketAnswerEntity {
         // eslint-disable-next-line @typescript-eslint/naming-convention
         insertURL: string[] = [];
 
-    @Column('integer')
+    @Column('integer', {nullable: true})
         ticketId?: number;
 
-    @Column('integer')
+    @Column('integer', {nullable: true})
         userId?: number;
 
     @ManyToOne(() => UserEntity, user => user.answers)

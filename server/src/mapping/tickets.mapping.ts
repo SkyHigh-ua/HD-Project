@@ -1,4 +1,4 @@
-import {type Ticket, type TicketWithoutId} from '../common/tickets.types.js';
+import {type Ticket, type TicketWithoutId} from '../common/types/tickets.types';
 import TicketEntity from '../entities/tickets.entity.js';
 
 export function mapTicketToTicketEntity(ticket: TicketWithoutId): TicketEntity {
@@ -13,6 +13,7 @@ export function mapTicketToTicketEntity(ticket: TicketWithoutId): TicketEntity {
     ticketEntity.insertURL = ticket.insertURL;
     ticketEntity.text = ticket.text;
     ticketEntity.status = ticket.status;
+    ticketEntity.userId = ticket.userId;
 
     return ticketEntity;
 }
@@ -26,5 +27,6 @@ export function mapTicketEntityToTicket(ticketEntity: TicketEntity): Ticket {
         insertURL: ticketEntity.insertURL,
         status: ticketEntity.status,
         text: ticketEntity.text,
+        userId: ticketEntity.userId,
     };
 }

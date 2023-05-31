@@ -1,22 +1,25 @@
-import * as middleware from '../../middlewares/middleware.common.js';
-import Joi, {number, string} from 'joi';
+import Joi from 'joi';
+import {verificationSchema} from './users.joi.js';
 
-const postMiddleware = middleware.validateBody(Joi.object({
+export const createSchema = Joi.object({
     title: Joi.string().required(),
     from: Joi.string().required(),
     text: Joi.string().required(),
     // eslint-disable-next-line @typescript-eslint/naming-convention
     insertURL: Joi.array<string>().required(),
     status: Joi.string().required(),
-}));
+    userId: Joi.number(),
+});
 
-const putMiddleware = middleware.validateBody(Joi.object({
+export const updateSchema = Joi.object({
     title: Joi.string(),
     from: Joi.string(),
     text: Joi.string(),
     // eslint-disable-next-line @typescript-eslint/naming-convention
     insertURL: Joi.array<string>(),
     status: Joi.string(),
-}));
+    userId: Joi.number(),
+});
 
-export default {postMiddleware, putMiddleware};
+export const verificationAndCreateSchema = verificationSchema.concat(createSchema);
+export const verificationAndUpdateSchema = verificationSchema.concat(updateSchema);
