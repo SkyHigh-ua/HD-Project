@@ -1,6 +1,7 @@
 import UserEntity from '../entities/users.entity.js';
-import {type FindManyOptions} from 'typeorm';
 import dbCommon from '../common/db.common.js';
+import {type PartialUser, User} from '../common/types/users.types';
+import connection from '../datasource/db.datasource.js';
 
 export async function createUser(user: UserEntity): Promise<UserEntity> {
     const newUser = dbCommon.entityManager.create(UserEntity, user);
@@ -9,17 +10,41 @@ export async function createUser(user: UserEntity): Promise<UserEntity> {
 }
 
 export async function findAllUsers(
-    filter?: FindManyOptions<UserEntity>, // {status?: string}
+    filter?: PartialUser,
     page?: number,
     limit?: number,
 ): Promise<UserEntity[]> {
-    const options: FindManyOptions<UserEntity> = {
-        ...filter,
-        skip: page && limit ? (page - 1) * limit : undefined,
-        take: limit,
-    };
+    const query = connection.createQueryBuilder(UserEntity, 'User');
 
-    return dbCommon.entityManager.find(UserEntity, options);
+    if (filter?.email) {
+        query.andWhere('User.email = :email', {email: filter.email});
+    }
+
+    if (filter?.firstName) {
+        query.andWhere('User.firstName = :firstName', {firstName: filter.firstName});
+    }
+
+    if (filter?.lastName) {
+        query.andWhere('User.lastName = :lastName', {lastName: filter.lastName});
+    }
+
+    if (filter?.password) {
+        query.andWhere('User.password = :password', {password: filter.password});
+    }
+
+    if (filter?.username) {
+        query.andWhere('User.username = :username', {username: filter.username});
+    }
+
+    if (filter?.token) {
+        query.andWhere('User.token = :token', {token: filter.token});
+    }
+
+    if (page && limit) {
+        query.skip((page - 1) * limit).take(limit);
+    }
+
+    return query.getMany();
 }
 
 export async function findUserById(id: number): Promise<UserEntity | undefined> {
@@ -49,7 +74,7 @@ Promise<UserEntity | undefined> {
     }
 }
 
-export async function updateUser(user: UserEntity): Promise<UserEntity> {
+export async function updateUser(user: UserEntity) {
     const existingUser = await findUserById(user.id);
 
     if (!existingUser) {

@@ -1,15 +1,11 @@
-import {type PartialUser, type User, UserWithoutId} from '../common/users.types.js';
+import {type PartialUser, type User, type UserWithoutId} from '../common/types/users.types.js';
 import * as Dao from '../DAO/users.dao.js';
 import * as mapping from '../mapping/users.mapping.js';
 import HttpError from '../common/error.class.js';
-import {type FindManyOptions} from 'typeorm';
-import type UserEntity from '../entities/users.entity.js';
-import jwt from 'jsonwebtoken';
-import config from '../config/auth.config';
 
 export async function get(
     userId?: number,
-    filter?: FindManyOptions<UserEntity>,
+    filter?: PartialUser,
     page?: number,
     limit?: number,
 ) {
@@ -17,7 +13,7 @@ export async function get(
         const user = await Dao.findUserById(userId);
 
         if (!user) {
-            throw new HttpError(`User with id ${userId} not found`, 404);
+            return {error: `User with id ${userId} not found`};
         }
 
         return mapping.mapUserEntityToUser(user);
@@ -55,12 +51,12 @@ export async function update(userId: number, userData: PartialUser) {
     const oldUser = mapping.mapUserEntityToUser(oldUserEntity);
     const updatedUserData: User = {
         id: userId,
-        username: userData.username ? userData.username : oldUser.username,
-        firstName: userData.firstName ? userData.firstName : oldUser.firstName,
-        lastName: userData.lastName ? userData.lastName : oldUser.lastName,
-        email: userData.email ? userData.email : oldUser.email,
-        password: userData.password ? userData.password : oldUser.password,
-        token: userData.token ? userData.token : oldUser.token,
+        username: userData.username ?? oldUser.username,
+        firstName: userData.firstName ?? null,
+        lastName: userData.lastName ?? null,
+        email: userData.email ?? oldUser.email,
+        password: userData.password ?? oldUser.password,
+        token: userData.token ?? null,
     };
 
     const updatedUserEntity = mapping.mapUserToUserEntity(updatedUserData);

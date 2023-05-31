@@ -15,6 +15,7 @@ module.exports = {
                 "*.tsx"
             ],
             "rules": {
+                '@typescript-eslint/ban-types': 'off',
                 '@typescript-eslint/indent': ['error', 4],
                 "new-cap": [
                     "error",
@@ -26,7 +27,8 @@ module.exports = {
                             "ManyToOne",
                             "JoinColumn",
                             "OneToOne",
-                            "OneToMany"
+                            "OneToMany",
+                            "Unique"
                         ]
                     }
                 ]

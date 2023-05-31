@@ -9,7 +9,7 @@
       "esModuleInterop": true,
       "strictNullChecks": true,
       "noImplicitAny": true,
-      "strict": true
+      "strict": true,
     }
 }
     

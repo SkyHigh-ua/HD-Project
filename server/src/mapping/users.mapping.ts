@@ -1,4 +1,4 @@
-import {type User, type UserWithoutId} from '../common/users.types';
+import {type User, type UserWithoutId} from '../common/types/users.types';
 import UserEntity from '../entities/users.entity.js';
 
 export function mapUserToUserEntity(user: UserWithoutId): UserEntity {

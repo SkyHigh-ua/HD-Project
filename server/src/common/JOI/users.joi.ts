@@ -1,25 +1,29 @@
-import * as middleware from '../../middlewares/middleware.common.js';
 import Joi from 'joi';
 
-const loginMiddleware = middleware.validateBody(Joi.object({
+export const verificationSchema = Joi.object({
+    token: Joi.string().required(),
+}).unknown(true);
+
+export const loginSchema = Joi.object({
     username: Joi.string().required(),
     password: Joi.string().required(),
-}));
+});
 
-const postMiddleware = middleware.validateBody(Joi.object({
+export const signupSchema = Joi.object({
     username: Joi.string().required(),
-    firstName: Joi.string().required(),
-    lastName: Joi.string().required(),
+    firstName: Joi.string(),
+    lastName: Joi.string(),
     email: Joi.string().required(),
     password: Joi.string().required(),
-}));
+});
 
-const putMiddleware = middleware.validateBody(Joi.object({
+export const updateSchema = Joi.object({
     username: Joi.string(),
     firstName: Joi.string(),
     lastName: Joi.string(),
     email: Joi.string(),
     password: Joi.string(),
-}));
+});
 
-export default {postMiddleware, putMiddleware, loginMiddleware};
+export const verificationAndUpdateSchema
+    = verificationSchema.concat(updateSchema);

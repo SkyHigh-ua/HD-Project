@@ -1,36 +1,34 @@
-import {Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn} from 'typeorm';
+import {Entity, Column, PrimaryGeneratedColumn, OneToMany} from 'typeorm';
 import {TicketEntity} from './tickets.entity.js';
 import {TicketAnswerEntity} from './tickets-ans.entity.js';
 
 @Entity('User')
 export class UserEntity {
     @PrimaryGeneratedColumn({primaryKeyConstraintName: 'PK_User'})
-        id: number = 0;
+        id = 0;
 
     @Column({type: 'text', unique: true})
-        username: string = '';
+        username = '';
 
-    @Column('text')
-        firstName?: string = '';
+    @Column('text', {nullable: true})
+        firstName?: string | null;
 
-    @Column('text')
-        lastName?: string = '';
+    @Column('text', {nullable: true})
+        lastName?: string | null;
 
     @Column({type: 'text', unique: true})
-        email: string = '';
+        email = '';
 
     @Column('text')
-        password: string = '';
+        password = '';
 
     @Column({type: 'text', nullable: true})
-        token?: string;
+        token?: string | null;
 
     @OneToMany(() => TicketEntity, ticket => ticket.user)
-    @JoinColumn({name: 'id', referencedColumnName: 'userId'})
         tickets?: TicketEntity[];
 
     @OneToMany(() => TicketAnswerEntity, answer => answer.user)
-    @JoinColumn({name: 'id', referencedColumnName: 'userId'})
         answers?: TicketAnswerEntity[];
 }
 

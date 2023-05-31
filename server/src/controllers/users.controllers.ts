@@ -1,15 +1,13 @@
 import * as services from '../services/users.services.js';
 import {type NextFunction, type Request, type Response} from 'express';
-import {type FindManyOptions} from 'typeorm';
-import type UserEntity from '../entities/users.entity.js';
-import {type PartialUser, type User, UserWithoutId} from '../common/users.types';
+import {type PartialUser, type User, type UserWithoutId} from '../common/types/users.types';
 import jwt from 'jsonwebtoken';
 import authConfig from '../config/auth.config.js';
-import {type UserRequest} from '../common/request.types.js';
+import {type UserRequest} from '../common/types/request.types';
 
 export async function get(req: Request, res: Response, next: NextFunction) {
     try {
-        const filter = req.body.filter as FindManyOptions<UserEntity>;
+        const filter = req.body.filter as PartialUser;
         const page = req.body.page as number | undefined;
         const limit = req.body.limit as number | undefined;
 
@@ -36,7 +34,7 @@ export async function login(req: UserRequest, res: Response, next: NextFunction)
         const loggedInUser = await services.login(username, password);
 
         const {id} = loggedInUser;
-        loggedInUser.token = jwt.sign({id}, authConfig.jwtSecret, {expiresIn: '1m'});
+        loggedInUser.token = jwt.sign({id}, authConfig.jwtSecret, {expiresIn: '5m'});
         await services.update(id, loggedInUser);
 
         res.json(loggedInUser);
@@ -46,20 +44,21 @@ export async function login(req: UserRequest, res: Response, next: NextFunction)
 }
 
 export async function logout(req: UserRequest, res: Response) {
+    const {token} = req.headers;
+
     try {
-        if (!req.user) {
-            // User is not authenticated, treat it as a successful logout
-            res.sendStatus(200);
-            return;
+        const [existingUser]
+            = await services.get(undefined, {token: (token as string)}) as User[];
+
+        if (!existingUser) {
+            return res.status(401).json({error: 'User not found'});
         }
 
-        console.log(req.user);
-        const {id} = req.user;
+        // @ts-ignore
+        existingUser.token = null;
+        const {id} = existingUser;
 
-        req.user.token = undefined;
-        await services.update(id, req.user);
-
-        res.sendStatus(200);
+        res.json(await services.update(id, existingUser));
     } catch (err) {
         console.error(err);
         res.sendStatus(500);
