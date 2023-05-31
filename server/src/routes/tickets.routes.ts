@@ -4,6 +4,7 @@ import {verificationAndCreateMiddleware, verificationAndUpdateMiddleware}
     from '../middlewares/validation/tickets.validation.middleware.js';
 import {verificationMiddleware} from '../middlewares/validation/users.validation.middleware.js';
 import {verifyUser} from '../middlewares/users.middleware.js';
+import {getAnswersStatisticsAcrossMonths} from '../statistics/tickets.statistics.js';
 
 // eslint-disable-next-line new-cap
 const ticketRouter = Router();

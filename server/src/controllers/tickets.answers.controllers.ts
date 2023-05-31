@@ -1,14 +1,24 @@
-import e, {type NextFunction, type Request, type Response} from 'express';
+import {type NextFunction, type Request, type Response} from 'express';
 import {type PartialTicketAnswer, type TicketAnswerWithoutId} from '../common/types/tickets.answers.types';
 import * as services from '../services/tickets.answers.services.js';
+import {getAnswersStatisticsAcrossMonths} from '../statistics/tickets.statistics.js';
 
 export async function get(req: Request, res: Response, next: NextFunction) {
     try {
         const filter = req.body.filter as PartialTicketAnswer;
         const page = req.body.page as number | undefined;
         const limit = req.body.limit as number | undefined;
-        console.log('inside controller');
+
         res.json(await services.get(Number(req.params.answerId), filter, page, limit));
+    } catch (err) {
+        next(err);
+    }
+}
+
+export async function getStatistics(req: Request, res: Response, next: NextFunction) {
+    try {
+        const statistics = await getAnswersStatisticsAcrossMonths();
+        res.json(statistics);
     } catch (err) {
         next(err);
     }

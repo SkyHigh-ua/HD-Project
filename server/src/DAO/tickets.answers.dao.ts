@@ -50,7 +50,6 @@ export async function findAllAnswers(
         query.skip((page - 1) * limit).take(limit);
     }
 
-    console.log('trial to get answers');
     return query.getMany();
 }
 

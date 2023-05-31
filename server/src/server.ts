@@ -8,7 +8,6 @@ import answerRouter from './routes/tickets.answers.routes.js';
 
 const app: Express = express();
 const portToListen = parseInt(config.SERVER_PORT!, 10);
-
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
