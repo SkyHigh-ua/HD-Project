@@ -142,6 +142,18 @@
   background-color: #bdbdbd;
 }
 
+.back-button:hover {
+  background-color: #bdbdbd;
+}
+
+.solve-button:hover {
+  background-color: #bdbdbd;
+}
+
+.save-button:hover {
+  background-color: #bdbdbd;
+}
+
 .sidebar button:hover:not(#middle-btn) {
   background-color: #d7d7d7;
 }
@@ -173,4 +185,124 @@
 .table-cont {
   flex: 1;
   overflow: auto;
+  display: flex; /* Add this line to enable flexbox */
+  align-items: flex-start; /* Align items at the start of the flex container */
+  min-height: 0px;
+}
+
+/* ticket-view */
+
+.ticket {
+  border: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  height: 70vh;
+  margin-top: 5vh;
+}
+
+.ticket-header {
+  height: 10vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  background-color: #cfcfcf;
+}
+
+.ticket-header-left {
+  display: flex;
+  flex-direction: column;
+  margin-left: 2vw;
+}
+
+.ticket-header-right {
+  display: flex;
+  align-items: flex-end;
+  margin-right: 2vw;
+}
+
+.ticket-main {
+  flex: 1;
+  font-size: 16px;
+  padding: 13px;
+  overflow: auto;
+}
+
+.ticket-header span {
+  max-width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nav-cont-view {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: right;
+}
+
+.nav-cont-view button:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.main-ticket-view {
+  flex: 2.3;
+  background-color: #ffffff;
+}
+
+.main-ticket-view h2 {
+  text-align: center;
+  margin-top: 2vh;
+  margin-bottom: 1vh;
+}
+
+.accept-button-view:hover {
+  background-color: #bdbdbd;
+}
+
+/* ticket-view-ans */
+
+.ticket-ans {
+  border: 1px solid #ccc;
+  width: 90%;
+  height: 70vh;
+  margin-top: 5vh;
+  overflow: hidden;
+}
+
+.ticket-header-ans {
+  height: 10vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #cfcfcf;
+}
+
+.ticket-main-ans {
+  font-size: 16px;
+  height: 62vh;
+}
+
+.ticket-header-ans span {
+  max-width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.main-ans {
+  flex: 2.3;
+  background-color: #ffffff;
+  max-width: calc(100% - 70px - (0.7 * 100vw * 0.023));
+  overflow: auto;
+}
+
+.main-ans h2 {
+  text-align: center;
+  margin-top: 2vh;
+  margin-bottom: 1vh;
 }

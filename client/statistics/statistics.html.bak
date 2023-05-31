@@ -16,7 +16,7 @@
       <button class="btn btn-block" style="height: 10vh;">
         <i class="bi bi-x-lg"></i>
       </button>
-      <button class="btn btn-block" style="height: 10vh;" id="button-overview">
+      <button class="btn btn-block" style="height: 10vh;">
         <i class="bi bi-ticket"></i>
       </button>
       <button id="active-btn" class="btn btn-block active" style="height: 10vh;">

@@ -2,8 +2,8 @@
 <html>
 
 <head>
-  <title>Ticket View</title>
-  <link rel="stylesheet" href="ticket-view-ans.css">
+  <title>Ticket Overview</title>
+  <link rel="stylesheet" href="ticket-overview.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
   <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
@@ -14,13 +14,13 @@
 
 
     <div class="sidebar">
-      <button class="btn btn-block" style="height: 10vh;">
+      <button class="btn btn-block" style="height: 10vh;" id="button-close">
         <i class="bi bi-x-lg"></i>
       </button>
       <button id="middle-btn" class="btn btn-block active" style="height: 10vh;">
         <i class="bi bi-ticket"></i>
       </button>
-      <button class="btn btn-block" style="height: 10vh;">
+      <button class="btn btn-block" style="height: 10vh;" id="button-stat">
         <i class="bi bi-bar-chart"></i>
       </button>
     </div>
@@ -42,47 +42,51 @@
       <button class="collapsible">My Tickets</button>
       <div class="content">
         <div class="row">
-          <button class="btn btn-light btn-block">Opened</button>
-          <button class="btn btn-light btn-block">Solved</button>
-          <button class="btn btn-light btn-block">Closed</button>
+          <button class="btn btn-light btn-block" id="my-tickets-opened">Opened</button>
+          <button class="btn btn-light btn-block" id="my-tickets-solved">Solved</button>
+          <button class="btn btn-light btn-block" id="my-tickets-closed">Closed</button>
         </div>
       </div>
 
     </div>
+
     <div class="main justify-content-center">
 
-      <h2>Ticket View</h2>
+      <h2>Ticket Overview</h2>
 
       <div class="nav-cont">
 
+        <div class="pagination-container">
+          <nav>
+            <ul id="pagination" class="pagination justify-content-center">
+            </ul>
+          </nav>
+        </div>
 
         <div class="button-container">
-          <button class="back-button btn">Back</button>
-          <button class="save-button btn">Save</button>
-          <button class="solve-button btn">Solve</button>
+          <button class="view-button btn">View</button>
+          <button class="accept-button btn">Accept</button>
         </div>
 
       </div>
 
-      <div class="d-flex justify-content-center">
+      <div class="table-cont d-flex justify-content-center">
 
-        <div class="ticket">
 
-          <div class="ticket-header">
-            <div class="ticket-header-left">
-              <span class="mb-1"><strong>From:</strong> John Doe</span>
-              <span><strong>Subject:</strong> Ticket Subject</span>
-            </div>
-            <div class="ticket-header-right">
-              <span><strong>Deadline:</strong> May 25, 2023</span>
-            </div>
-          </div>
-          <div class="ticket-main">
-            <div id="editor"></div>
-          </div>
+        <table class="mytable table table-striped mt-3" id="myTable">
+          <thead>
+            <tr>
+              <th>Select</th>
+              <th>From</th>
+              <th>Subject</th>
+              <th>Deadline</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="ticketRows">
 
-        </div>
-
+          </tbody>
+        </table>
 
       </div>
 
@@ -92,7 +96,7 @@
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-  <script src="ticket-view-ans.js"></script>
+  <script src="ticket-overview.js"></script>
 </body>
 
 </html>

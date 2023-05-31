@@ -1,0 +1,65 @@
+// Step 1: Select the view button
+const acceptButtonView = document.querySelector('.accept-button-view');
+
+// Step 2: Add event listener to the view button
+acceptButtonView.addEventListener('click', changeSectionViewAnsView);
+
+// Step 3: Handle the button click event
+function changeSectionViewAnsView() {
+  let oldDivElement = document.querySelector('.main-ticket-view');
+
+const newHTML = `
+<div class="main-ans justify-content-center">
+
+      <h2>Ticket View</h2>
+
+      <div class="nav-cont-view">
+
+
+        <div class="button-container">
+          <button class="back-button btn" id="button-back">Back</button>
+          <button class="save-button btn">Save</button>
+          <button class="solve-button btn">Solve</button>
+        </div>
+
+      </div>
+
+      <div class="d-flex justify-content-center">
+
+        <div class="ticket-ans">
+
+          <div class="ticket-header-ans">
+            <div class="ticket-header-left">
+              <span class="mb-1"><strong>From:</strong> ${selectedTicket.from}</span>
+              <span><strong>Subject:</strong> ${selectedTicket.title}</span>
+            </div>
+            <div class="ticket-header-right">
+              <span><strong>Deadline:</strong> ${selectedTicket.deadline}</span>
+            </div>
+          </div>
+          <div class="ticket-main-ans">
+            <div id="editor"></div>
+          </div>
+
+        </div>
+
+
+      </div>
+
+    </div>
+`;
+
+oldDivElement.outerHTML = newHTML;
+
+const scriptElementAns = document.createElement('script');
+scriptElementAns.src = 'ticket-view-ans.js';
+document.body.appendChild(scriptElementAns);
+};
+
+const backButton = document.getElementById('button-back');
+const backUrl = 'ticket-overview.html';
+
+backButton.addEventListener('click', function() {
+  window.location.href = backUrl;
+});
+

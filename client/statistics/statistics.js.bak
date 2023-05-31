@@ -40,9 +40,11 @@ var myChart = new Chart(ctx, {
 /*fetch('/statistics')
   .then(response => response.json())
   .then(data => {
+    // Update chartData with the received data
     chartData.labels = data.labels;
     chartData.datasets[0].data = data.values;
-	
+
+    // Update the chart
     myChart.update();
   })
   .catch(error => {

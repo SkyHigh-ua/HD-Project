@@ -1,0 +1,39 @@
+var quill = new Quill('#editor', {
+  theme: 'snow'
+});
+
+const backButtonAns = document.getElementById('button-back');
+const backUrlAns = 'ticket-overview.html';
+
+backButtonAns.addEventListener('click', function() {
+  window.location.href = backUrlAns;
+});
+
+
+
+var solveButton = document.querySelector('.solve-button');
+
+solveButton.addEventListener('click', function() {
+
+  var editorText = quill.getText();
+
+  /*fetch('/tickets/' + selectedTicket.id, {
+    method: 'POST',
+    body: JSON.stringify({ text: editorText }),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(response => {
+    if (response.ok) {
+      console.log('POST request successful');
+    } else {
+      console.log('POST request failed');
+    }
+  })
+  .catch(error => {
+    console.log('Error:', error);
+  }); */
+  
+  console.log('text', editorText);
+});
