@@ -6,6 +6,7 @@ export type TicketAnswer = {
     insertURL: string[];
     ticketId?: number | null;
     userId?: number | null;
+    answerDate: Date;
 };
 
 export type TicketAnswerWithoutId = {id?: number} & Omit<TicketAnswer, 'id'>;

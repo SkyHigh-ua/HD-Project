@@ -20,6 +20,9 @@ export class TicketAnswerEntity {
     @Column('integer', {nullable: true})
         userId?: number | null;
 
+    @Column('date', {default: () => 'CURRENT_TIMESTAMP'})
+        answerDate: Date = new Date();
+
     @ManyToOne(() => UserEntity, user => user.answers)
     @JoinColumn({name: 'userId', referencedColumnName: 'id'})
         user?: UserEntity;

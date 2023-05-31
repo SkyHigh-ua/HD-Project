@@ -12,6 +12,7 @@ export function mapTicketAnswerToTicketAnswerEntity(answer: TicketAnswerWithoutI
     answerEntity.insertURL = answer.insertURL;
     answerEntity.text = answer.text;
     answerEntity.userId = answer.userId;
+    answerEntity.answerDate = answer.answerDate;
 
     return answerEntity;
 }
@@ -24,5 +25,6 @@ export function mapTicketAnswerEntityToTicketAnswer(answerEntity: TicketAnswerEn
         insertURL: answerEntity.insertURL,
         text: answerEntity.text,
         userId: answerEntity.userId,
+        answerDate: answerEntity.answerDate,
     };
 }

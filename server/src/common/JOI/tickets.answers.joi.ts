@@ -14,4 +14,5 @@ export const updateSchema = Joi.object({
     insertURL: Joi.array<string>(),
     ticketId: Joi.number(),
     userId: Joi.number(),
+    answerDate: Joi.date(),
 });

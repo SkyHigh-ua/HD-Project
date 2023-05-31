@@ -42,6 +42,10 @@ export async function findAllAnswers(
         query.andWhere('TicketAnswer.userId = :userId', {userId: filter.userId});
     }
 
+    if (filter?.answerDate) {
+        query.andWhere('DATE(TicketAnswer.answerDate) = :date', {date: filter.answerDate});
+    }
+
     if (page && limit) {
         query.skip((page - 1) * limit).take(limit);
     }
@@ -80,6 +84,7 @@ export async function updateAnswer(answer: TicketAnswerEntity) {
     existingAnswer.userId = answer.userId;
     existingAnswer.text = answer.text;
     existingAnswer.insertURL = answer.insertURL;
+    existingAnswer.answerDate = answer.answerDate;
 
     return dbCommon.entityManager.save(existingAnswer);
 }

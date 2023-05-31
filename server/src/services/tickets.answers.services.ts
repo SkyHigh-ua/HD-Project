@@ -54,6 +54,7 @@ export async function update(answerId: number, answer: PartialTicketAnswer) {
         insertURL: answer.insertURL ? answer.insertURL : oldAnswer.insertURL,
         ticketId: answer.ticketId ? answer.ticketId : null,
         userId: answer.userId ? answer.userId : null,
+        answerDate: answer.answerDate as Date ? answer.answerDate as Date : oldAnswer.answerDate,
     };
 
     const updatedAnswer = await Dao.updateAnswer(mapTicketAnswerToTicketAnswerEntity(updatedData));
